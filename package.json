@@ -1,0 +1,17 @@
+{
+  "name": "recommendation-nodejs-l",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv": "^1.1.1",
+    "csv-streamify": "^3.0.4",
+    "nodemon": "^1.11.0"
+  }
+}
