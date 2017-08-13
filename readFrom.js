@@ -1,8 +1,12 @@
 const fs = require('fs');
-let symbols = [], userIDs = [], logs = [];
+let userIDs = [], logs = [];
+let regEx = /([A-Z]+)/g; // To get symbols of the users 
+let bankLogs,filteredUsers,temporarySymbols=[],symbols=[];
+let objectOfUsers={};  let frequenceCounter={};
+let splitterOne=[],splitterTwo=[];
 
 let readData = new Promise(function (resolve, reject) {
-    fs.readFile('/home/fsahin3458/Masaüstü/activity-logs.csv', 'utf8', (err, data) => {
+    fs.readFile('/home/geek/Desktop/activity-logs.csv', 'utf8', (err, data) => {
         if (err)
             reject();
         resolve(data);
@@ -23,37 +27,51 @@ function splitString(stringToSplit, separator) {
 
 readData
     .then((data) => {
-        let temporaryData;
-        splitString(data, ';')
-        
-        for (let i = 2; i < logs.length; i += 5) {
-            // userIDs.push(logs[i])
-            var u = /([A-Z]+)/g;
-            temporaryData = u.exec(logs[i + 1]);
-            console.log(temporaryData)
-            // symbols.push(temporaryData);
-            // createObject(logs[i],temporaryData);
+        bankLogs = splitString(data, ';');
+    })
+    .then(()=>{
+       for (let index = 2; index < bankLogs.length; index += 5){ 
+                userIDs.push(bankLogs[index]);
+                temporarySymbols.push(bankLogs[index+1]);    
         }
-        
+    })
+    .then(()=>{
+        temporarySymbols.forEach(function(element) {
+            splitterOne.push(element.split('='));
+       });
+    })
+    // .then(()=>{
+
+    //     console.log(splitterOne)
+    // })
+    // .then(()=>{
+    //     for (let i = 0; i < splitterOne.length; i+=5) {
+    //         splitterTwo.push(splitterOne.split('&'))
+            
+    //     }
+    //    for (let i = 0; i < splitterTwo.length; i+=2) 
+    //        symbols.push(splitterTwo[i]);
+    // })
+    // .then(()=>{
+    //     console.log(symbols)
+    // })
+    .then(()=>{
+        for (let i = 0; i < symbols.length; i++) {
+            let num = symbols[i];
+            frequenceCounter[num] = frequenceCounter[num] ? frequenceCounter[num] + 1 : 1;
+          }
+    })
+    .then(() => {
+      filteredUsers=userIDs.filter((value, index)=> {
+            return userIDs.indexOf(value) === index
+        });
+    })
+    .then(() => {
+        filteredUsers.forEach(function(element) {
+            objectOfUsers[element]={}   
+        });
+    })
+    .then(()=>{
+        console.log(objectOfUsers)
     })
     .catch((err) => console.log('Error happened : ' + err));
-
-// function createObject(userID, symbolName) {
-//     let object = new Object();
-//     object.userID = userID;
-//     object.symbolName = symbolName;
-//     object.symbolValue ;
-//     if (object.userID == userID) {
-//         if (object.symbolName == userID.symbolName)
-//            object.symbolValue++;
-//     } else {
-//         object.symbolName = symbolName;
-//         object.symbolValue++;
-//     }
-//     console.log(object)
-// }
-// let logData = '2017-08-09T13:51:36.502Z;MATRIKS;12951;/?symbol=GARAN&period=1min&start=2015-07-17&end=2015-07-17;veli-bar-data-api-node;bar-data-api';
-
-// let semiColon = ';';
-
-// splitString(logData,semiColon);
