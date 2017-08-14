@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csv": "^1.1.1",
-    "csv-streamify": "^3.0.4",
     "is-upper-case": "^1.1.2",
+    "jasmine": "^2.7.0",
+    "jasmine-node": "^1.14.5",
     "nodemon": "^1.11.0"
   }
 }
