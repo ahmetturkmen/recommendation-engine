@@ -61,7 +61,6 @@ function splitString(stringToSplit, separator) {
     arrayOfStrings.forEach(function (element) {
         logs.push(element)
     });
-    //console.log(logs);
     return logs;
 }
 
