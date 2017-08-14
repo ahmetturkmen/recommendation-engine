@@ -1,11 +1,7 @@
 const fs = require('fs');
 const isUpperCase = require('is-upper-case');
-let userIDs = [], logs = [], bankLogs = [];
-let objectOfUsers = {}, objectKeys = [];
+let bankLogs = [], objectOfUsers = {}, objectKeys = [];
 let filteredUsers = [], temporarySymbols = [];
-
-
-
 let readData = new Promise(function (resolve, reject) {
     fs.readFile('/home/geek/Desktop/activity-logs.csv', 'utf8', (err, data) => {
         if (err)
@@ -36,6 +32,7 @@ readData
 
 
 function splitString(stringToSplit, separator) {
+    let logs = [];
     let arrayOfStrings = stringToSplit.split(separator);
     arrayOfStrings.forEach(function (element) {
         logs.push(element)
