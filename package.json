@@ -12,6 +12,7 @@
   "dependencies": {
     "csv": "^1.1.1",
     "csv-streamify": "^3.0.4",
+    "is-upper-case": "^1.1.2",
     "nodemon": "^1.11.0"
   }
 }
