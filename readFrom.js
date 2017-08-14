@@ -3,7 +3,7 @@ let userIDs = [], logs = [];
 let regEx = /([A-Z]+)/g; // To get symbols of the users 
 let bankLogs,filteredUsers,temporarySymbols=[],symbols=[];
 let objectOfUsers={};  let frequenceCounter={};
-let splitterOne=[],splitterTwo=[];
+let splitterOne=[],splitterTwo=[],temporaryVariable=' ';
 
 let readData = new Promise(function (resolve, reject) {
     fs.readFile('/home/geek/Desktop/activity-logs.csv', 'utf8', (err, data) => {
@@ -36,31 +36,26 @@ readData
         }
     })
     .then(()=>{
-        temporarySymbols.forEach(function(element) {
-            splitterOne.push(element.split('='));
-       });
+        temporarySymbols.forEach((element)=> {
+            temporaryVariable+=element;
+        });
+       
     })
-    // .then(()=>{
-
-    //     console.log(splitterOne)
-    // })
-    // .then(()=>{
-    //     for (let i = 0; i < splitterOne.length; i+=5) {
-    //         splitterTwo.push(splitterOne.split('&'))
-            
-    //     }
-    //    for (let i = 0; i < splitterTwo.length; i+=2) 
-    //        symbols.push(splitterTwo[i]);
-    // })
-    // .then(()=>{
-    //     console.log(symbols)
-    // })
     .then(()=>{
+        splitterOne=temporaryVariable.split('=')
+        splitterOne.forEach(function(element) {
+            splitterTwo.push(element.split('&'));
+        });
+    })
+    .then(()=>{
+            console.log(splitterTwo)
+    })
+   /*  .then(()=>{
         for (let i = 0; i < symbols.length; i++) {
             let num = symbols[i];
             frequenceCounter[num] = frequenceCounter[num] ? frequenceCounter[num] + 1 : 1;
           }
-    })
+    }) */
     .then(() => {
       filteredUsers=userIDs.filter((value, index)=> {
             return userIDs.indexOf(value) === index
