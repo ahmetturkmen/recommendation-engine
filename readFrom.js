@@ -1,7 +1,7 @@
 const fs = require('fs');
 const isUpperCase = require('is-upper-case');
-let userIDs = [],logs=[];
-let objectOfUsers = {}; 
+let userIDs = [], logs = [];
+let objectOfUsers = {};
 let bankLogs, filteredUsers, temporarySymbols = [];
 
 
@@ -36,21 +36,11 @@ readData
         });
     })
     .then(() => {
-        createObject(temporarySymbols, 0)
-
-    })
-    .then(() => {
-        createObject(temporarySymbols, 1)
-    })
-    .then(() => {
-        createObject(temporarySymbols, 2);
-    })
-    .then(() => {
-        createObject(temporarySymbols, 3)
+        for (let index = 0; index < filteredUsers.length; index++)
+            createObject(temporarySymbols, index)
     })
     .then(() => {
         console.log(objectOfUsers)
-
     })
 
     .catch((err) => console.log('Error happened : ' + err));
@@ -74,9 +64,10 @@ function createObject(temporarySymbols, indexOfFilteredUsers) {
                 counter = 1;
                 objectOfUsers[filteredUsers[indexOfFilteredUsers]][tempSlicedValue2] = counter;
             }
-            else if (objectOfUsers[filteredUsers[indexOfFilteredUsers]][tempSlicedValue2] !== undefined)
+            else if (objectOfUsers[filteredUsers[indexOfFilteredUsers]][tempSlicedValue2] !== undefined) {
                 counter++;
-            objectOfUsers[filteredUsers[indexOfFilteredUsers]][tempSlicedValue2] = counter;
+                objectOfUsers[filteredUsers[indexOfFilteredUsers]][tempSlicedValue2] = counter;
+            }
         }
 
     })
