@@ -11,23 +11,20 @@ let readData = new Promise(function (resolve, reject) {
     });
 
 });
-
 readData
-    .then((data) => {
-        bankLogs = splitString(data, ';')
-    })
-    .then(() => {
-        for (let index = 2; index < bankLogs.length; index += 5) {
-            objectOfUsers[bankLogs[index]] = {}
-            temporarySymbols.push(bankLogs[index].concat(bankLogs[index + 1]));
-        }
-        Object.keys(objectOfUsers).forEach(function (element) {
-            objectKeys.push(element)
-        });
-        for (let index = 0; index < objectKeys.length; index++)
-            createObject(index);
-        console.log(objectOfUsers)
-    })
+.then(data => {
+    bankLogs = splitString(data, ';')
+    for (let index = 2; index < bankLogs.length; index += 5) {
+        objectOfUsers[bankLogs[index]] = {}
+        temporarySymbols.push(bankLogs[index].concat(bankLogs[index + 1]));
+    }
+    Object.keys(objectOfUsers).forEach(function (element) {
+        objectKeys.push(element)
+    });
+    for (let index = 0; index < objectKeys.length; index++)
+        createObject(index);
+    console.log(objectOfUsers)
+})
     .catch((err) => console.log('Error happened : ' + err));
 
 
@@ -40,19 +37,19 @@ function splitString(stringToSplit, separator) {
     return logs;
 }
 
-function createObject(indexOfFilteredUsers) {
+function createObject(indexOfUsers) {
     let counter, tempSlicedValue, tempSlicedValue2;
     temporarySymbols.forEach(function (element) {
         tempSlicedValue = element.slice(0, element.indexOf('/'));
         tempSlicedValue2 = element.slice(tempSlicedValue.length + 9, element.indexOf('&'))
-        if (tempSlicedValue === objectKeys[indexOfFilteredUsers] && isUpperCase(tempSlicedValue2) && tempSlicedValue2 !== '') {
-            if (objectOfUsers[objectKeys[indexOfFilteredUsers]][tempSlicedValue2] === undefined) {
+        if (tempSlicedValue === objectKeys[indexOfUsers] && isUpperCase(tempSlicedValue2) && tempSlicedValue2 !== '') {
+            if (objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] === undefined) {
                 counter = 1;
-                objectOfUsers[objectKeys[indexOfFilteredUsers]][tempSlicedValue2] = counter;
+                objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] = counter;
             }
-            else if (objectOfUsers[objectKeys[indexOfFilteredUsers]][tempSlicedValue2] !== undefined) {
+            else if (objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] !== undefined) {
                 counter++;
-                objectOfUsers[objectKeys[indexOfFilteredUsers]][tempSlicedValue2] = counter;
+                objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] = counter;
             }
         }
 

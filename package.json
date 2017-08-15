@@ -2,12 +2,13 @@
   "name": "recommendation-nodejs-l",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "readFrom.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node /spec/readSpec.js",
+    "start": "nodemon readFrom.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["jasmine","nodemon","recommendation"],
+  "author": "Ahmet Turkmen",
   "license": "ISC",
   "dependencies": {
     "is-upper-case": "^1.1.2",
