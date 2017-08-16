@@ -18,12 +18,12 @@ let readData = new Promise(function (resolve, reject) {
 
 readData.then(obj => {
     let temporaryData = [];
-    obj.data.forEach(function (element) {
+    obj.data.forEach((element) =>{
         temporaryData = splitString(element, ';')
-        if (temporaryData[3] !== undefined){
-                obj.objectOfUsers[temporaryData[2]] = {}
-                userIdAndSymbols.push(temporaryData[2].concat(temporaryData[3]))
-            }
+        if (temporaryData[3] !== undefined) {
+            obj.objectOfUsers[temporaryData[2]] = {}
+            userIdAndSymbols.push(temporaryData[2].concat(temporaryData[3]))
+        }
     })
     Object.keys(obj.objectOfUsers).forEach(function (element) {
         obj.objectKeys.push(element)
@@ -33,9 +33,6 @@ readData.then(obj => {
     console.log(obj.objectOfUsers)
 })
     .catch((err) => console.log('Error happened : ' + err));
-
-
-
 
 function createObject(indexOfUsers, objectOfUsers, objectKeys) {
     let counter, tempSlicedValue, tempSlicedValue2;
