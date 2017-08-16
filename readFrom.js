@@ -13,8 +13,9 @@ readData.then(data => {
     let symbol, userAndSymbol = [];
     data.split('\r').forEach((element) => {
         [_, __, userId, symbolString, ___, _____] = element.split(';');
-        if (symbolString !== undefined && symbolString.includes('/?symbol=')) {
+        if (symbolString !== undefined ) {
             symbol = symbolString.slice(symbolString.indexOf('=') + 1, symbolString.indexOf('&'));
+            if(symbol!=='' && isNaN(symbol))
             userAndSymbol.push(userId + ' ' + symbol)
         }
     })

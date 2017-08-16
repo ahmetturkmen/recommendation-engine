@@ -7,10 +7,15 @@
     "test": "jasmine-node /spec/readSpec.js",
     "start": "nodemon readFrom.js"
   },
-  "keywords": ["jasmine","nodemon","recommendation"],
+  "keywords": [
+    "jasmine",
+    "nodemon",
+    "recommendation"
+  ],
   "author": "Ahmet Turkmen",
   "license": "ISC",
   "dependencies": {
+    "appmetrics": "^3.0.2",
     "is-upper-case": "^1.1.2",
     "jasmine": "^2.7.0",
     "jasmine-node": "^1.14.5",
