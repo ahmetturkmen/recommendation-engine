@@ -11,23 +11,22 @@ let readData = new Promise(function (resolve, reject) {
 });
 
 readData.then(data => {
-    let temp = data.split('\r'), symbol
-    let temporaryString; let userAndSymbol = [];
-    temp.forEach((element) => {
+    let symbol, userAndSymbol = [];
+    data.split('\r').forEach((element) => {
         [_, __, userId, symbolString, ___, _____] = element.split(';');
         if (symbolString !== undefined && symbolString.includes('/?symbol=')) {
             symbol = symbolString.slice(symbolString.indexOf('=') + 1, symbolString.indexOf('&'));
-                userAndSymbol.push(userId + ' ' + symbol)
+            userAndSymbol.push(userId + ' ' + symbol)
         }
     })
-     createObject(userAndSymbol)
+    createObject(userAndSymbol)
     console.log(objectOfUsers)
 })
     .catch((err) => console.log('Error happened : ' + err));
 
 function createObject(userIdAndSymbol) {
     let counter;
-    userIdAndSymbol.forEach(function(element) {
+    userIdAndSymbol.forEach(function (element) {
         [userId, symbol] = element.split(' ')
         if (objectOfUsers[userId] === undefined)
             objectOfUsers[userId] = {};
