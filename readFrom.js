@@ -1,63 +1,46 @@
 const fs = require('fs');
 const isUpperCase = require('is-upper-case');
-let userIdAndSymbols = [];
+let objectOfUsers = {}
 let readData = new Promise(function (resolve, reject) {
     fs.readFile('/home/geek/Desktop/activity-logs.csv', 'utf8', (err, data) => {
         if (err)
             reject(err);
-        let obj = {
-            data: data.split('\r'),
-            objectOfUsers: {},
-            objectKeys: []
-        };
-        resolve(obj);
+        resolve(data);
     });
 
 });
 
-
-readData.then(obj => {
-    let temporaryData = [];
-    obj.data.forEach((element) =>{
-        temporaryData = splitString(element, ';')
-        if (temporaryData[3] !== undefined) {
-            obj.objectOfUsers[temporaryData[2]] = {}
-            userIdAndSymbols.push(temporaryData[2].concat(temporaryData[3]))
+readData.then(data => {
+    let temp = data.split('\r'), symbol
+    let temporaryString; let userAndSymbol = [];
+    temp.forEach((element) => {
+        [_, __, userId, symbolString, ___, _____] = element.split(';');
+        if (symbolString !== undefined && symbolString.includes('/?symbol=')) {
+            symbol = symbolString.slice(symbolString.indexOf('=') + 1, symbolString.indexOf('&'));
+                userAndSymbol.push(userId + ' ' + symbol)
         }
     })
-    Object.keys(obj.objectOfUsers).forEach(function (element) {
-        obj.objectKeys.push(element)
-    });
-    for (let index = 0; index < obj.objectKeys.length; index++)
-        createObject(index, obj.objectOfUsers, obj.objectKeys);
-    console.log(obj.objectOfUsers)
+     createObject(userAndSymbol)
+    console.log(objectOfUsers)
 })
+
     .catch((err) => console.log('Error happened : ' + err));
 
-function createObject(indexOfUsers, objectOfUsers, objectKeys) {
-    let counter, tempSlicedValue, tempSlicedValue2;
-    userIdAndSymbols.forEach(function (element) {
-        tempSlicedValue = element.slice(0, element.indexOf('/'));
-        tempSlicedValue2 = element.slice(tempSlicedValue.length + 9, element.indexOf('&'))
-        if (tempSlicedValue === objectKeys[indexOfUsers] && isUpperCase(tempSlicedValue2) && tempSlicedValue2 !== '') {
-            if (objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] === undefined) {
-                counter = 1;
-                objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] = counter;
+function createObject(userIdAndSymbol) {
+    let counter;
+    userIdAndSymbol.forEach(function(element) {
+        [userId, symbol] = element.split(' ')
+        if (objectOfUsers[userId] === undefined)
+            objectOfUsers[userId] = {};
+        if (objectOfUsers[userId] !== undefined)
+            if (objectOfUsers[userId][symbol] === undefined && isUpperCase(symbol)) {
+                counter = 1
+                objectOfUsers[userId][symbol] = counter
             }
-            else if (objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] !== undefined) {
-                counter++;
-                objectOfUsers[objectKeys[indexOfUsers]][tempSlicedValue2] = counter;
+            else if (objectOfUsers[userId][symbol] !== undefined && isUpperCase(symbol)) {
+                counter++
+                objectOfUsers[userId][symbol] = counter
             }
-        }
-
-    })
-}
-function splitString(stringToSplit, separator) {
-    let logs = [];
-    let arrayOfStrings = stringToSplit.split(separator);
-    arrayOfStrings.forEach(function (element) {
-        logs.push(element)
     });
-    return logs;
-}
 
+}
