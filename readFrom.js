@@ -23,7 +23,6 @@ readData.then(data => {
      createObject(userAndSymbol)
     console.log(objectOfUsers)
 })
-
     .catch((err) => console.log('Error happened : ' + err));
 
 function createObject(userIdAndSymbol) {
@@ -42,5 +41,4 @@ function createObject(userIdAndSymbol) {
                 objectOfUsers[userId][symbol] = counter
             }
     });
-
 }
