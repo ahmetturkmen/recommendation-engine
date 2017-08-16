@@ -1,14 +1,12 @@
 const fs = require('fs');
 const isUpperCase = require('is-upper-case');
-let temporarySymbols = [];
+let userIdAndSymbols = [];
 let readData = new Promise(function (resolve, reject) {
     fs.readFile('/home/geek/Desktop/activity-logs.csv', 'utf8', (err, data) => {
         if (err)
             reject(err);
-
         let obj = {
-            data: data,
-            bankLogs: [],
+            data: data.split('\r'),
             objectOfUsers: {},
             objectKeys: []
         };
@@ -19,11 +17,14 @@ let readData = new Promise(function (resolve, reject) {
 
 
 readData.then(obj => {
-    obj.bankLogs = splitString(obj.data, ';')
-    for (let index = 2; index < obj.bankLogs.length; index += 5) {
-        obj.objectOfUsers[obj.bankLogs[index]] = {}
-        temporarySymbols.push(obj.bankLogs[index].concat(obj.bankLogs[index + 1]));
-    }
+    let temporaryData = [];
+    obj.data.forEach(function (element) {
+        temporaryData = splitString(element, ';')
+        if (temporaryData[3] !== undefined){
+                obj.objectOfUsers[temporaryData[2]] = {}
+                userIdAndSymbols.push(temporaryData[2].concat(temporaryData[3]))
+            }
+    })
     Object.keys(obj.objectOfUsers).forEach(function (element) {
         obj.objectKeys.push(element)
     });
@@ -38,7 +39,7 @@ readData.then(obj => {
 
 function createObject(indexOfUsers, objectOfUsers, objectKeys) {
     let counter, tempSlicedValue, tempSlicedValue2;
-    temporarySymbols.forEach(function (element) {
+    userIdAndSymbols.forEach(function (element) {
         tempSlicedValue = element.slice(0, element.indexOf('/'));
         tempSlicedValue2 = element.slice(tempSlicedValue.length + 9, element.indexOf('&'))
         if (tempSlicedValue === objectKeys[indexOfUsers] && isUpperCase(tempSlicedValue2) && tempSlicedValue2 !== '') {
@@ -63,6 +64,3 @@ function splitString(stringToSplit, separator) {
     return logs;
 }
 
-module.exports = {
-    splitString,
-}
