@@ -1,6 +1,5 @@
 const fs = require('fs');
 const isUpperCase = require('is-upper-case');
-let objectOfUsers = {}
 let readData = new Promise(function (resolve, reject) {
     fs.readFile('/home/geek/Desktop/activity-logs.csv', 'utf8', (err, data) => {
         if (err)
@@ -19,13 +18,12 @@ readData.then(data => {
             userAndSymbol.push(userId + ' ' + symbol)
         }
     })
-    createObject(userAndSymbol)
-    console.log(objectOfUsers)
+    console.log(createObject(userAndSymbol))
 })
     .catch((err) => console.log('Error happened : ' + err));
 
 function createObject(userIdAndSymbol) {
-    let counter;
+    let counter, objectOfUsers = {}
     userIdAndSymbol.forEach(function (element) {
         [userId, symbol] = element.split(' ')
         if (objectOfUsers[userId] === undefined)
@@ -40,4 +38,5 @@ function createObject(userIdAndSymbol) {
                 objectOfUsers[userId][symbol] = counter
             }
     });
+    return objectOfUsers
 }
